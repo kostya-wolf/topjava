@@ -34,7 +34,7 @@ public class UserMealsUtil {
         // Заполняем мапу: дата -- сумма калорий
         for (UserMeal userMeal : mealList) {
             LocalDate localDate = userMeal.getDateTime().toLocalDate();
-            caloriesMap.put(localDate, caloriesMap.getOrDefault(localDate, 0) + userMeal.getCalories());
+            caloriesMap.put(localDate, caloriesMap.merge(localDate, userMeal.getCalories(), Integer::sum));
         }
 
         List<UserMealWithExceed> result = new ArrayList<>();

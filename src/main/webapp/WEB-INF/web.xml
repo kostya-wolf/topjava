@@ -16,4 +16,20 @@
         <url-pattern>/users</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>mealServlet</servlet-name>
+        <servlet-class>ru.javawebinar.topjava.web.MealServlet</servlet-class>
+        <!--Элемент load-on-startup в дескрипторе развертывания web.xml служит для указания того,
+        что сервлет следует загружать в память сразу при старте контейнера сервлетов.
+        Применение данного элемента позволяет избежать задержки получения ответа при первом обращении к сервлету,
+        т.к. сервлет уже будет загружен в память.
+        Значение элемента load-on-startup является целым числом.
+        Первым загружается сервлет имеющий меньшее значение данного параметра.-->
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mealServlet</servlet-name>
+        <url-pattern>/meals</url-pattern>
+    </servlet-mapping>
+
 </web-app>

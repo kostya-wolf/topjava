@@ -17,7 +17,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.debug("redirect to Meals");
+        log.debug("forward to Meals");
 
         int caloriesPerDay = 2000;
         List<MealTo> mealToList = MealsUtil.getFilteredWithExcess(caloriesPerDay);

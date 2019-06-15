@@ -16,7 +16,7 @@ import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 
 public class MealsUtil {
-    public static List<Meal> meals = Arrays.asList(
+    public static final List<Meal> MEALS = Arrays.asList(
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
@@ -26,12 +26,12 @@ public class MealsUtil {
     );
 
     public static void main(String[] args) {
-        List<MealTo> mealsWithExcess = getFilteredWithExcess(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+        List<MealTo> mealsWithExcess = getFilteredWithExcess(MEALS, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsWithExcess.forEach(System.out::println);
 
-        System.out.println(getFilteredWithExcessByCycle(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
-        System.out.println(getFilteredWithExcessInOnePass(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
-        System.out.println(getFilteredWithExcessInOnePass2(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
+        System.out.println(getFilteredWithExcessByCycle(MEALS, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
+        System.out.println(getFilteredWithExcessInOnePass(MEALS, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
+        System.out.println(getFilteredWithExcessInOnePass2(MEALS, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000));
     }
 
     public static List<MealTo> getFilteredWithExcess(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
@@ -112,18 +112,6 @@ public class MealsUtil {
 
 
     public static List<MealTo> getFilteredWithExcess(int caloriesPerDay) {
-        Collection<List<Meal>> list = meals.stream()
-                .collect(Collectors.groupingBy(Meal::getDate)).values();
-
-        return list.stream()
-                .flatMap(dayMeals -> {
-                    boolean excess = dayMeals
-                            .stream()
-                            .mapToInt(Meal::getCalories).sum() > caloriesPerDay;
-                    return dayMeals
-                            .stream()
-                            .map(meal -> createWithExcess(meal, excess));
-                })
-                .collect(toList());
+        return getFilteredWithExcessInOnePass(MEALS, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
     }
 }

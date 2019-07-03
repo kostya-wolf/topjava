@@ -1,12 +1,19 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+
+@NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id = :userId ORDER BY m.dateTime DESC")
+
+@Entity
+@Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
+    public static final java.lang.String ALL_SORTED = "Meal.getAllSorted";
+
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     private String description;
@@ -14,6 +21,7 @@ public class Meal extends AbstractBaseEntity {
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Meal() {

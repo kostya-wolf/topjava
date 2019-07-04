@@ -7,11 +7,17 @@ import java.time.LocalTime;
 
 
 @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id = :userId ORDER BY m.dateTime DESC")
+@NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id = :id and m.user.id = :userId")
+@NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id = :id and m.user.id = :userId")
+@NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m FROM Meal m WHERE m.user.id = :userId AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
 
 @Entity
 @Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
     public static final java.lang.String ALL_SORTED = "Meal.getAllSorted";
+    public static final java.lang.String DELETE = "Meal.delete";
+    public static final java.lang.String GET = "Meal.get";
+    public static final java.lang.String GET_BETWEEN = "Meal.getBetween";
 
     @Column(name = "date_time")
     private LocalDateTime dateTime;

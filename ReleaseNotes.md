@@ -1,4 +1,84 @@
 # TopJava Release Notes
+
+### Topjava 23
+- migrate to JDK 16
+- в новой spring-data-jpa `getOne` заменили на `getById`
+- в UserUtil#prepareToSave убрал проверку пароля на `hasText`. На UI поле проверяется на `@NotBlank`
+- `ProfileRestController#register` делаю по правилам REST (POST без "/register")
+- css стили `data-...` сделал [low-case через дефисы](https://stackoverflow.com/questions/36176474/548473)
+- `TestMatcher` переименовал в `MatcherFactory`
+- Для Swagger UI пометил `AuthorizedUser` аннотацией `@ApiIgnore` 
+
+### Topjava 22
+ - очистка пароля `AuthorizedUser#userTo`
+ - заменил `@SafeHtml`, который удалили из `hibernate.validator` на [Jsoup.clean](https://stackoverflow.com/a/68888601/548473)
+ - перенес запрет на обновление admin/user в `UserService`
+ - проверку email на уникальность для update с `id=null` в теле запроса сделал на основе анализа `HttpServletRequest.getRequestURI()`
+ - проверку класса в `classpath` в `Profiles#getActiveDbProfile` делаю на `org.springframework.util.ClassUtils#isPresent`
+ - удалил `type="text/javascript"`
+ 
+### Topjava 21
+- **добавили документирование REST API: Swagger**
+- мигрировали на JDK 15 и используем текстовые блоки
+- Вынес `produces = MediaType.APPLICATION_JSON_VALUE` на уровень контроллеров
+- Правильно используем [глабальные переменные в js](https://stackoverflow.com/a/5064235/548473)
+- Зарефакторил `inputField.tag`
+- Тестовые переменные переименовал из UPPERCASE в camelCase
+- Из тестов сервисов убрал `throws Exception` (в IDEA больше не генерятся по умолчанию)
+- **Мигрировали на Spring Boot 2.4.1**
+
+### Topjava 20
+- мигрировали на JDK 14
+- в `@SafeHtml` запрещаем весь html (`whitelistType = NONE`)
+- в `topjava.common.js` в `makeEditable()` вместо объекта контекст передаю 3 параметра
+- в UI контроллерах убрал префикс `ajax`
+- из тестов сервисов убрал `repository`. При проверке через `assertThrows` он не требуется
+- в `TestMatcher` сценарии сравнения сделал параметризируемыми (паттерн стратегия)
+- в API добавили `/users/{id}/with-meals` (см. [двунаправленные отношения](https://www.codeflow.site/ru/article/jackson-bidirectional-relationships-and-infinite-recursion))
+- добавил `UserTestData.USER_WITH_MEALS_MATCHER` (проверки пользователя сразу с едой) и константу id `NOT_FOUND`
+
+### Topjava 19
+- Изменилась логика для интервалов времени (исключаем `endTime`)
+- Заменил собственный `MessageUtil` велосипед на спринговый `MessageSourceAccessor`
+- В ролях убрал префиксы `ROLE_` ([Role and GrantedAuthority](https://stackoverflow.com/a/19542316/548473)) 
+- Добавился удобный метод `int AbstractBaseEntity.id()`
+- Фикс `Location` в `ProfileRestController.register`
+- Фикс валидации `UniqueMailValidator` для REST update без `user.id`
+- Заменил `jdbc.initLocation` на полный путь - IDEA не ругается
+- В конфигурации `cargo-maven2-plugin` сделал [индивидуальный контекст приложения](https://stackoverflow.com/a/60797999/548473)
+- Тесты
+  - Обновил даты еды на 2020г.
+  - Зарефакторил тесты сервисов на удаление - `NotFoundException` может бросаться при `delete()`
+  - В тестах контроллеров вернулся к реализации без обертки над `MockMvcRequestBuilders`
+  - Для `InMemory` тестов подключаю только `inmemory.xml` (добавил туда необходимую конфигурацию из `spring-app.xml`)
+  
+
+### Topjava 18
+
+- В `ErrorType` добавил `HttpStatus status`
+- В PostgreSQL обнаружилась бага: граничное значение `0:00` из-за ошибок округления попадает в предыдущий интервал.
+Мораль: всегда в тестах проверяйте граничные значения. Добавил этот случай в тестовые данные.
+- Изменил `MealRepository.getBetween` (принимаю `@Nullable LocalDate`). Изменились реализации.
+- Выделил метод `UserService.prepareAndSave`
+- В TO поля сделал `final`, используем `@ConstructorProperties`
+- Наконец локализировал описание приложения на страничке входа
+- Для полей ввода дат добавил `autocomplete="off"` 
+- При закрытии модального окна закрываю окно ошибок
+- Тесты:
+  - **Вместо очистки кэшей перед каждым тестом отключаем кэши для всех тестов**
+  - **Вынес общий код тестирования контроллеров в `AbstractControllerTest`. Код тестов значительно сократился**
+  - **Сделал типизированный `TestMatchers<T>` для проверки результатов тестов. В классах `UserTestData` и `MealTestData` создаю его инстансы с заданным типом и методикой сравнения.**
+  - В тестах `delete` и `create` проверяю результат напрямую (не через `getAll`)
+
+
+### Topjava 17
+- Удалил `Impl` из названий репозиториев
+- Удалил интерфейсы к сервисам, использую классы
+- Добавил `AdminRestController.enable`, вызов через PATCH метод
+- Добавил валидацию для jdbc через Bean Validation API
+- Перенес работу в UI с профилем из `RootController` в `ProfileUIController`
+- `SLF4JBridgeHandler` инициализирую только в профиле `postgres`
+
 ### Topjava 16
 - Выделил общий код реализации хранения в памяти в `InMemoryBaseRepositoryImpl`
 - Сделал подтверждение для удаления записей

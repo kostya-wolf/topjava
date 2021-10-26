@@ -20,28 +20,24 @@
         table {
             border: 2px darkgreen solid;
             background-color: greenyellow;
-            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<h2>Meals</h2>
-<a href="meals?action=add">Add meal</a>
-<table>
-    <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Calories</th>
-    </tr>
-    <c:forEach var="meal" items="${allMealsTo}">
-        <tr style='color: ${meal.excess ? "red" : "green"}'>
-            <td>${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</td>
-            <td>${meal.description}</td>
-            <td>${meal.calories}</td>
+<h2>Edit meal</h2>
+<form name="editMeal" method="post" action="meals">
+    <table>
+        <tr><th></th><th></th></tr>
+        <tr><td>DateTime:</td><td><input type="datetime-local" name="dateTime" value="2021-10-26T23:07"></td></tr>
+        <tr><td>Description:</td><td><input type="text" name="description" size="75"></td></tr>
+        <tr><td>Calories:</td><td><input type="text" name="calories" size="7"></td></tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="save"/>&nbsp;&nbsp;&nbsp;<input type="button" value="cancel"/></td>
         </tr>
-    </c:forEach>
-</table>
+
+    </table>
+</form>
 </body>
 </html>

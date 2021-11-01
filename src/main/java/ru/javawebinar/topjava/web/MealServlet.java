@@ -43,7 +43,8 @@ public class MealServlet extends HttpServlet {
                     log.debug("deleting meal");
                     int id = Integer.parseInt(request.getParameter("id"));
                     service.deleteMeal(id);
-                    break;
+                    response.sendRedirect("meals");
+                    return;
                 }
             }
         }

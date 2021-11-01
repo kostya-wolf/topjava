@@ -36,6 +36,7 @@
         <th>Calories</th>
     </tr>
     <c:forEach var="meal" items="${allMealsTo}">
+        <jsp:useBean id="meal" scope="page" class="ru.javawebinar.topjava.model.MealTo"/>
         <tr style='color: ${meal.excess ? "red" : "green"}'>
             <td>${f:formatLocalDateTime(meal.dateTime, 'yyyy-MM-dd HH:mm')}</td>
             <td>${meal.description}</td>

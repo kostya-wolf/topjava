@@ -9,11 +9,11 @@ import java.util.List;
 public interface MealService {
     List<MealTo> getAllMealsTo();
 
-    MealTo getMealToById(Integer id);
+    MealTo getMealToById(int id);
 
-    void deleteMeal(Integer id);
+    void deleteMeal(int id);
 
     Meal createMeal(LocalDateTime dateTime, String description, int calories);
 
-    Meal updateMeal(Integer id);
+    Meal updateMeal(int id, LocalDateTime dateTime, String description, Integer calories);
 }

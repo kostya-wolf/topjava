@@ -26,17 +26,18 @@
 <body>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<h2>Edit meal</h2>
+<h2>${param.action.equals("edit") ? "Edit meal" : "Add meal"}</h2>
 <form name="editMeal" method="post" action="meals">
+    <input type="hidden" name="action" value="${param.action}">
+    <input type="hidden" name="id" value="${mealTo.id}">
     <table>
         <tr><th></th><th></th></tr>
-        <tr><td>DateTime:</td><td><input type="datetime-local" name="dateTime" value="2021-10-26T23:07"></td></tr>
-        <tr><td>Description:</td><td><input type="text" name="description" size="75"></td></tr>
-        <tr><td>Calories:</td><td><input type="text" name="calories" size="7"></td></tr>
+        <tr><td>DateTime:</td><td><input type="datetime-local" name="dateTime" value="${mealTo.dateTime}"></td></tr>
+        <tr><td>Description:</td><td><input type="text" name="description" size="75" value="${mealTo.description}"></td></tr>
+        <tr><td>Calories:</td><td><input type="text" name="calories" size="7" value="${mealTo.calories}"></td></tr>
         <tr>
-            <td colspan="2"><input type="submit" value="save"/>&nbsp;&nbsp;&nbsp;<input type="button" value="cancel"/></td>
+            <td colspan="2"><input type="submit" value="save"/>&nbsp;&nbsp;&nbsp;<input type="button" value="cancel" onclick="window.history.back();"/></td>
         </tr>
-
     </table>
 </form>
 </body>

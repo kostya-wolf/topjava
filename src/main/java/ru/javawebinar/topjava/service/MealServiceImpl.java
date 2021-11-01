@@ -14,13 +14,26 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public MealTo getMealToById(Integer id) {
-        return null;
+    public MealTo getMealToById(int id) {
+        return getAllMealsTo()
+                .stream()
+                .filter(mealTo -> id == mealTo.getId())
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Meal getMealById(int id) {
+        return MealsUtil.getAllMeals()
+                .stream()
+                .filter(m -> id == m.getId())
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
-    public void deleteMeal(Integer id) {
-
+    public void deleteMeal(int id) {
+        Meal meal = getMealById(id);
+        MealsUtil.getAllMeals().remove(meal);
     }
 
     @Override
@@ -39,7 +52,11 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal updateMeal(Integer id) {
-        return null;
+    public Meal updateMeal(int id, LocalDateTime dateTime, String description, Integer calories) {
+        Meal meal = getMealById(id);
+        int index = MealsUtil.getAllMeals().indexOf(meal);
+        MealsUtil.getAllMeals().remove(index);
+        MealsUtil.getAllMeals().add(index, new Meal(id, dateTime, description, calories));
+        return meal;
     }
 }

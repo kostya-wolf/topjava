@@ -28,7 +28,7 @@ public class MealsUtil {
     private static Integer CALORIES_PER_DAY = 2000;
 
     public static void main(String[] args) {
-        List<Meal> meals = allMeals;
+        List<Meal> meals = getAllMeals();
 
         List<MealTo> mealsTo = filteredByStreams(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsTo.forEach(System.out::println);
@@ -52,10 +52,10 @@ public class MealsUtil {
     }
 
     public static List<MealTo> getAllMealsTo() {
-        return filteredByStreams(allMeals, LocalTime.MIN, LocalTime.MAX, CALORIES_PER_DAY);
+        return filteredByStreams(getAllMeals(), LocalTime.MIN, LocalTime.MAX, CALORIES_PER_DAY);
     }
 
-    public static List<Meal> getAllMeals() {
+    public static synchronized List<Meal> getAllMeals() {
         return allMeals;
     }
 }

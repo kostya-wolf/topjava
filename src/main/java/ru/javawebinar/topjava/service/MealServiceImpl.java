@@ -38,17 +38,9 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Meal createMeal(LocalDateTime dateTime, String description, int calories) {
-        Meal meal = new Meal(getNewId(), dateTime, description, calories);
+        Meal meal = new Meal(MealsUtil.getNewId(), dateTime, description, calories);
         MealsUtil.getAllMeals().add(meal);
         return meal;
-    }
-
-    private int getNewId() {
-        return 1 + getAllMealsTo()
-                .stream()
-                .mapToInt(MealTo::getId)
-                .max()
-                .orElse(0);
     }
 
     @Override

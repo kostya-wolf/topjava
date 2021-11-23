@@ -17,24 +17,20 @@ import java.util.List;
 public class JpaMealRepository implements MealRepository {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
         User user = em.getReference(User.class, userId);
+        meal.setUser(user);
         if (meal.isNew()) {
-            meal.setUser(user);
             em.persist(meal);
             return meal;
-        } else {
-            if (this.get(meal.getId(), userId) == null) {
-                return null;
-            }
-            meal.setUser(user);
-            em.merge(meal);
+        } else if (this.get(meal.id(), userId) == null) {
+            return null;
         }
-        return meal;
+        return em.merge(meal);
     }
 
     @Override
@@ -53,6 +49,9 @@ public class JpaMealRepository implements MealRepository {
                 .setParameter("userId", userId)
                 .getResultList();
         return DataAccessUtils.singleResult(meals);
+
+        /*Meal meal = em.find(Meal.class, id);
+        return meal != null && meal.getUser().getId() == userId ? meal : null;*/
     }
 
     @Override

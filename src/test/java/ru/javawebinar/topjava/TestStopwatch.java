@@ -10,6 +10,11 @@ import java.util.concurrent.TimeUnit;
 
 public class TestStopwatch extends Stopwatch {
     private static Logger logger = LoggerFactory.getLogger(TestStopwatch.class);
+    private StringBuilder results;
+
+    public TestStopwatch(StringBuilder results) {
+        this.results = results;
+    }
 
     @Override
     protected void succeeded(long nanos, Description description) {
@@ -29,6 +34,9 @@ public class TestStopwatch extends Stopwatch {
     @Override
     protected void finished(long nanos, Description description) {
         //logger.info("Тест {} окончен. Выполнение заняло {} наносекунд.", description.getMethodName(), nanos);
+        String result = String.format("\n%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+        results.append(result);
+        //logger.info(result + " ms\n");
     }
 
     private String getMilliseconds(long nanos) {

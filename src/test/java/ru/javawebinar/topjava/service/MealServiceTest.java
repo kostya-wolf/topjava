@@ -1,14 +1,12 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +19,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
@@ -54,6 +53,14 @@ public class MealServiceTest {
 
     @Autowired
     private MealService service;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Before
+    public void setup() {
+        Objects.requireNonNull(cacheManager.getCache("meals")).clear();
+    }
 
     @AfterClass
     public static void printResult() {

@@ -7,5 +7,4 @@ public class DateUtils {
     public static String formatLocalDateTime(LocalDateTime dateTime, String pattern) {
         return dateTime.format(DateTimeFormatter.ofPattern(pattern));
     }
-
 }

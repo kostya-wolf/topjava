@@ -14,6 +14,14 @@
         .excess {
             color: red;
         }
+        .margin7 {
+            margin: 7px;
+            padding: 7px;
+        }
+        .filter {
+            background-color: greenyellow;
+            border: 1px green solid;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +57,40 @@
             </tr>
         </c:forEach>
     </table>
+    <br>
+    <form action="meals" method="get">
+        <input type="hidden" name="action" value="filter">
+        <table class="filter">
+            <tr class="margin7">
+                <th>От даты (включая)</th>
+                <th>До даты (включая)</th>
+                <th>От времени (включая)</th>
+                <th>До времени (исключая)</th>
+            </tr>
+            <tr class="margin7">
+                <td align="center"><input type="date" class="filterInput" name="startDate" value="${param.startDate}"></td>
+                <td align="center"><input type="date" class="filterInput" name="endDate" value="${param.endDate}"></td>
+                <td align="center"><input type="time" class="filterInput" name="startTime" value="${param.startTime}"></td>
+                <td align="center"><input type="time" class="filterInput" name="endTime" value="${param.endTime}"></td>
+            </tr>
+            <tr class="margin7">
+                <td colspan="4" align="center">
+                    <input type="button" value="Сбросить" onClick="resetAll()">&nbsp;
+                    <input type="submit">
+                </td>
+            </tr>
+        </table>
+    </form>
 </section>
+
+<script>
+    function resetAll() {
+        let filters = document.querySelectorAll('input[class=filterInput]');
+        for (let i = 0; i < filters.length; i++) {
+            filters[i].value = null;
+        }
+        document.querySelector('input[type=submit]').click();
+    }
+</script>
 </body>
 </html>

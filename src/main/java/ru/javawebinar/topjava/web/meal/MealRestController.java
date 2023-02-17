@@ -9,6 +9,8 @@ import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -54,4 +56,8 @@ public class MealRestController {
         service.update(meal, authUserId());
     }
 
+    public List<MealTo> filter(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        log.info("filtering by startDate={}, endDate={}, startTime={}, endTime={}", startDate, endDate, startTime, endTime);
+        return service.filter(startDate, endDate, startTime, endTime, authUserId());
+    }
 }

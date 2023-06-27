@@ -9,6 +9,10 @@ function makeEditable(datatableApi) {
         }
     });
 
+    $(".enable_user").click(function () {
+        enableUser($(this).closest('tr').attr("id"), $(this).prop('checked'));
+    });
+
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
     });
@@ -29,6 +33,17 @@ function deleteRow(id) {
     }).done(function () {
         updateTable();
         successNoty("Deleted");
+    });
+}
+
+function enableUser(id, checked) {
+    $.ajax({
+        type: "GET",
+        url: 'rest/' + ctx.ajaxUrl + id + '/enable',
+        data: { enabled : checked }
+    }).done(function (data) {
+        updateTable();
+        successNoty("Enabled/Disabled");
     });
 }
 

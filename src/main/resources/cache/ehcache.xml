@@ -17,6 +17,7 @@
     <cache-template name="singleNonExpiryCache">
         <expiry>
             <none/>
+<!--            <ttl unit="seconds">5</ttl>-->
         </expiry>
         <heap>1</heap>
     </cache-template>

@@ -28,6 +28,14 @@ public class AdminRestController extends AbstractUserController {
         return super.get(id);
     }
 
+    @GetMapping("/{id}/enable")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void enable(@PathVariable int id, @RequestParam boolean enabled) {
+        User user = get(id);
+        user.setEnabled(enabled);
+        update(user, id);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@RequestBody User user) {
         User created = super.create(user);

@@ -60,7 +60,11 @@ function save() {
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable();
+        if (ctx.ajaxUrl.includes("meals")) {
+            filterMeal()
+        } else {
+            updateTable();
+        }
         successNoty("Saved");
     });
 }

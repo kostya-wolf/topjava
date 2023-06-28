@@ -49,7 +49,7 @@ function filterMeal() {
         data: filterForm.serialize()
     }).done(function (data) {
         ctx.datatableApi.clear().rows.add(data).draw();
-        successNoty("Filtered");
+        // successNoty("Filtered");
     });
 }
 

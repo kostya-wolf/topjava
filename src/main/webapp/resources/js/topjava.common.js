@@ -13,6 +13,7 @@ function makeEditable(datatableApi) {
 }
 
 function add() {
+    console.log('topjava.common.js - add()');
     $("#modalTitle").html(i18n["addTitle"]);
     form.find(":input").val("");
     $("#editRow").modal();
@@ -46,6 +47,7 @@ function updateTableByData(data) {
 }
 
 function save() {
+    console.log('topjava.common.js -  save()');
     $.ajax({
         type: "POST",
         url: ctx.ajaxUrl,

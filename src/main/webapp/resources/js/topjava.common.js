@@ -19,12 +19,37 @@ function add() {
     $("#editRow").modal();
 }
 
+function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+}
+
+function myFormatDate(date) {
+    return (
+        [
+            padTo2Digits(date.getDate()),
+            padTo2Digits(date.getMonth() + 1),
+            date.getFullYear(),
+        ].join('.')
+        + ' '
+        + [
+            padTo2Digits(date.getHours()),
+            padTo2Digits(date.getMinutes())
+        ].join(':')
+    );
+}
+
 function updateRow(id) {
     form.find(":input").val("");
     $("#modalTitle").html(i18n["editTitle"]);
     $.get(ctx.ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
-            form.find("input[name='" + key + "']").val(value);
+            if (key === "dateTime") {
+                var jsDate = myFormatDate(new Date(Date.parse(value)));
+                console.log("jsDate = " + jsDate);
+                form.find("input[name='" + key + "']").val(jsDate);
+            } else {
+                form.find("input[name='" + key + "']").val(value);
+            }
         });
         $('#editRow').modal();
     });
@@ -47,11 +72,28 @@ function updateTableByData(data) {
 }
 
 function save() {
-    console.log('topjava.common.js -  save()');
+    console.log('topjava.common.js - save()');
+
+    // создание массива объектов из данных формы
+    var serializedForm = form.serializeArray();
+
+    // $.each(serializedForm, function(key, serializedForm)
+    // переберём каждый элемент массива объектов
+    $.each(serializedForm, function()
+    {
+        // выведем в консоль элемент в формате имя элемента=значение
+        console.log(this.name + '=' + this.value);
+        if (this.name === "dateTime") {
+            let split = this.value.replace(" ", ".").split(".");
+            this.value = [split[2], split[1], split[0]].join('-') + 'T' + split[3];
+        }
+        console.log(this.name + '=' + this.value);
+    });
+
     $.ajax({
         type: "POST",
         url: ctx.ajaxUrl,
-        data: form.serialize()
+        data: serializedForm
     }).done(function () {
         $("#editRow").modal("hide");
         ctx.updateTable();

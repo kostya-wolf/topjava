@@ -94,7 +94,9 @@
 
                     <div class="form-group">
                         <label for="dateTime" class="col-form-label"><spring:message code="meal.dateTime"/></label>
-                        <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
+                        <%--<input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
+                               placeholder="<spring:message code="meal.dateTime"/>">--%>
+                        <input type="text" class="form-control" id="dateTime" name="dateTime"
                                placeholder="<spring:message code="meal.dateTime"/>">
                     </div>
 
@@ -135,5 +137,9 @@
     <c:forEach var="key" items='<%=new String[]{"common.deleted","common.saved","common.enabled","common.disabled","common.errorStatus","common.confirm"}%>'>
     i18n["${key}"] = "<spring:message code="${key}"/>";
     </c:forEach>
+
+    jQuery('#dateTime').datetimepicker({
+        format: 'd.m.Y H:i',
+    });
 </script>
 </html>
